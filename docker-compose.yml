@@ -1,0 +1,16 @@
+services:
+  cache:
+    image: redis:7.2.1-alpine
+    restart: always
+    ports: ["6379:6379"]
+  script:
+    container_name: python-script
+    build:
+      context: ./parse-script
+    volumes:
+      - ./files:/app/files
+    environment:
+      - FILE_PATH
+    depends_on:
+      - cache
+    ports: ["5000:5000"]
